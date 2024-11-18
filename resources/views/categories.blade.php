@@ -3,6 +3,11 @@
 @section('content')
     <h1 class="text-center text-2xl font-bold mb-4">Quiz Categories</h1>
 
+    <!-- Error Section -->
+    <div id="error-message" class="hidden bg-red-500 text-white p-4 rounded">
+        Failed to load categories. Please try again later.
+    </div>
+
     <!-- Categories Grid -->
     <div id="categories-container" class="grid grid-cols-2 gap-4 mx-auto max-w-lg">
         <!-- Categories will be dynamically loaded here -->
@@ -16,7 +21,6 @@
     </div>
 
     <script>
-        //    $(document).ready(function() {
         let currentPage = 1;
 
         // Setup CSRF Token in header (for POST requests; not strictly needed for GET)
@@ -35,14 +39,25 @@
                 success: function(data) {
                     currentPage = data.currentPage;
                     renderCategories(data.categories);
-                    renderPagination(data.totalPages, currentPage); // Pass currentPage for pagination
+                    renderPagination(data.totalPages, currentPage);
+                    $('#error-message').addClass('hidden'); // Hide the error message on success
                 },
                 error: function(xhr, status, error) {
                     console.error("AJAX Error:", error);
-                    alert('Failed to load categories. Please try again later.');
+                    showError('Failed to load categories. Please try again later.');
                 }
             });
         };
+
+        // Show the error without fading
+        const showError = (message) => {
+            const errorMessage = $('#error-message');
+            errorMessage.text(message);
+            errorMessage.removeClass('hidden'); // Ensure visibility
+            errorMessage.stop(true, true).show(); // Cancel any ongoing animations
+        };
+
+
 
         // Render categories in a grid layout
         const renderCategories = (categories) => {
@@ -77,11 +92,10 @@
         const updateSelectedDot = (currentPage) => {
             $('.pagination-dot').removeClass('selected'); // Remove 'selected' class from all dots
             $(`.pagination-dot:nth-child(${currentPage})`).addClass(
-            'selected'); // Add 'selected' class to the correct dot
+                'selected'); // Add 'selected' class to the correct dot
         };
 
         // Load the first page initially
         loadCategories();
-        // });
     </script>
 @endsection

@@ -81,16 +81,78 @@
         }
 
         #content {
-            flex: 1; /* This makes the content take up all available space */
+            flex: 1;
+            /* This makes the content take up all available space */
         }
 
         footer {
-            background-color: #f3f4f6;  /* Light grey background */
+            background-color: #f3f4f6;
+            /* Light grey background */
             padding: 20px;
             text-align: center;
             width: 100%;
-            margin-top: auto; /* Ensures the footer stays at the bottom */
+            margin-top: auto;
+            /* Ensures the footer stays at the bottom */
         }
+
+        #quiz-container {
+        margin: 2rem auto;
+    }
+
+    #options-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .option-btn {
+        padding: 1rem;
+        background-color: #f3f4f6;
+        border-radius: 0.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .option-btn:hover {
+        background-color: #dbeafe; /* Light blue on hover */
+        transform: scale(1.02); /* Slight scaling effect on hover */
+    }
+
+    .option-btn.correct {
+        background-color: #d1fae5; /* Green for correct answers */
+        color: #065f46;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(0, 128, 0, 0.3);
+    }
+
+    .option-btn.incorrect {
+        background-color: #fee2e2; /* Red for incorrect answers */
+        color: #991b1b;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(255, 0, 0, 0.3);
+    }
+
+    /* Timer Box Styling */
+    #timer-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fee2e2;
+        color: #991b1b;
+        font-size: 1.2rem;
+        font-weight: bold;
+        width: 80px;
+        height: 40px;
+        border-radius: 0.5rem;
+        border: 2px solid #991b1b;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    #error-message {
+    display: none; /* Or hidden by default */
+}
+
     </style>
 </head>
 
@@ -101,19 +163,24 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center text-white">
             <a href="/" class="text-xl font-semibold">Quiz App</a>
             <div class="flex items-center">
-                @if(Auth::check()) <!-- Check if the user is logged in -->
+                @if (Auth::check())
+                    <!-- Check if the user is logged in -->
                     <!-- Dropdown for User Menu -->
                     <div class="relative">
                         <button class="mr-4 text-lg focus:outline-none">
                             {{ Auth::user()->name }} <!-- Display the user's name -->
                         </button>
-                        <div class="absolute right-0 w-48 mt-2 bg-white border rounded-md shadow-lg hidden dropdown-menu">
+                        <div
+                            class="absolute right-0 w-48 mt-2 bg-white border rounded-md shadow-lg hidden dropdown-menu">
                             <ul class="py-2">
-                                <li><a href="/categories" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-200">Categories</a></li>
+                                <li><a href="/categories"
+                                        class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-200">Categories</a>
+                                </li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" class="block">
                                         @csrf
-                                        <button type="submit" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-200 w-full text-left">
+                                        <button type="submit"
+                                            class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-200 w-full text-left">
                                             Logout
                                         </button>
                                     </form>
