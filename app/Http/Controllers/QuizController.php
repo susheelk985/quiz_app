@@ -46,11 +46,11 @@ class QuizController extends Controller
 
             // return redirect()->route('categories')->with('error', 'Unable to load the quiz. Please try again later.');
             // Return the quiz view with an error message and no questions
-        return view('quiz', [
-            'categoryName' => 'Unknown Category',
-            'questions' => [],
-            'error' => 'Failed to fetch quiz data. Please check your internet connection.',
-        ]);
+            return view('quiz', [
+                'categoryName' => 'Unknown Category',
+                'questions' => [],
+                'error' => 'Failed to fetch quiz data. Please check your internet connection.',
+            ]);
         }
     }
 
